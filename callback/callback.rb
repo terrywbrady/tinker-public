@@ -15,6 +15,18 @@ set :port, 8098
 
 set :bind, '0.0.0.0'
 
+get '/status/*' do
+  status params['splat'][0].to_i
+  headers['foo'] = 'bar1'
+  {message: 'hello'}.to_json
+end
+
+post '/status/*' do
+  status params['splat'][0].to_i
+  headers['foo'] = 'bar1'
+  {message: 'hello'}.to_json
+end
+
 get '/*' do
   puts "GET #{params['splat'][0]}"
   puts "\t#{params}"
