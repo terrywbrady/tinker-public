@@ -3,7 +3,7 @@ require 'httpclient'
 require "uri"
 require "nokogiri"
 
-def process_url(base, url, page=0)
+def process_url(base, url)
   fullurl = "#{base}#{url}"
   puts(fullurl)
   resp = @cli.get(fullurl, {}, {"Accept": "application/json"})
@@ -15,13 +15,7 @@ def process_url(base, url, page=0)
     @count = @count + 1
     # puts "\t#{id}"
   end
-  return if nurl.nil? 
-  return if nurl.empty?
-  page = page + 1
-  #puts "Page: #{page}"
-  return unless @max_pages == 0 || page < @max_pages
-  return unless @max_objects == 0 || @count < @max_objects
-  process_url(base, nurl, page)
+  return nurl
 end
 
 base = ARGV[0]
@@ -33,6 +27,12 @@ abort "ERROR: Supply feed base and url" if base.nil? || url.nil?
 @max_pages = 0
 @max_objects = 5000
 @count = 0
-process_url(base, url)
+@page = 0
+until url.nil? || url.empty? do
+  url = process_url(base, url)
+  @page = @page + 1
+  break unless @max_pages == 0 || @page < @max_pages
+  break unless @max_objects == 0 || @count < @max_objects
+end
 puts("Object count: #{@count}")
 
