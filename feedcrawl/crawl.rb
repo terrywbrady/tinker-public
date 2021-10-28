@@ -10,15 +10,17 @@ def process_url(base, url, page=0)
   abort("ERROR: #{resp.status}") unless resp.status == 200
   doc = Nokogiri::XML(resp.body)
   nurl = doc.xpath("/xmlns:feed/xmlns:link[@rel='next']/@href")
-  lurl = doc.xpath("/xmlns:feed/xmlns:link[@rel='last']/@href")
   ids = doc.xpath("/xmlns:feed/xmlns:entry/xmlns:id/text()")
   ids.each do |id|
-    puts "\t#{id}"
+    @count = @count + 1
+    # puts "\t#{id}"
   end
-  return if nurl == lurl
+  return if nurl.nil? 
+  return if nurl.empty?
   page = page + 1
-  puts "Page: #{page}"
-  return if page >= @max_pages
+  #puts "Page: #{page}"
+  return unless @max_pages == 0 || page < @max_pages
+  return unless @max_objects == 0 || @count < @max_objects
   process_url(base, nurl, page)
 end
 
@@ -27,6 +29,9 @@ url = ARGV[1]
 abort "ERROR: Supply feed base and url" if base.nil? || url.nil?
 
 @cli = HTTPClient.new
-@max_pages = 5
+@max_pages = 0
+@max_objects = 5000
+@count = 0
 process_url(base, url)
+puts("Object count: #{@count}")
 
