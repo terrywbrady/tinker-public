@@ -29,6 +29,7 @@ url = ARGV[1]
 abort "ERROR: Supply feed base and url" if base.nil? || url.nil?
 
 @cli = HTTPClient.new
+@cli.ssl_config.verify_mode = OpenSSL::SSL::VERIFY_NONE
 @max_pages = 0
 @max_objects = 5000
 @count = 0
