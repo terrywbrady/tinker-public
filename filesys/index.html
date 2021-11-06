@@ -9,8 +9,8 @@ async function getFile() {
 
   if (fileHandle.kind === 'file') {
     const fileData = await fileHandle.getFile();
-    status = await fileData.requestPermission()
-    console.log(fileData.text());
+    var text = await fileData.text();
+    alert(text);
   } else if (fileHandle.kind === 'directory') {
     // run directory code
   }
