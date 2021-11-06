@@ -9,7 +9,7 @@ async function getFile() {
 
   if (fileHandle.kind === 'file') {
     const fileData = await fileHandle.getFile();
-    console.log(fileData);
+    console.log(fileData.text());
   } else if (fileHandle.kind === 'directory') {
     // run directory code
   }
