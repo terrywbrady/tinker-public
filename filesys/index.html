@@ -1,0 +1,28 @@
+<html>
+<head>
+<script type="text/javascript">
+let fileHandle;
+
+async function getFile() {
+  console.log(2);
+  // open file picker
+  [fileHandle] = await window.showOpenFilePicker();
+
+  if (fileHandle.kind === 'file') {
+    // run file code
+  } else if (fileHandle.kind === 'directory') {
+    // run directory code
+  }
+
+}
+</script>
+</head>
+<body>
+    <h1>
+    Hello
+    </h1>
+    <button onclick="getFile()">
+    Go
+    </button>
+</body>
+</html>
