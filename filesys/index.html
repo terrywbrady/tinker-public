@@ -4,12 +4,12 @@
 let fileHandle;
 
 async function getFile() {
-  console.log(2);
   // open file picker
   [fileHandle] = await window.showOpenFilePicker();
 
   if (fileHandle.kind === 'file') {
-    // run file code
+    const fileData = await fileHandle.getFile();
+    console.log(fileData);
   } else if (fileHandle.kind === 'directory') {
     // run directory code
   }
