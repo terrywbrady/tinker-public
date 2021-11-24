@@ -1,29 +1,32 @@
 <html>
 <head>
 <script type="text/javascript">
-let fileHandle;
-
-async function getFile() {
-  // open file picker
-  [fileHandle] = await window.showOpenFilePicker();
-
-  if (fileHandle.kind === 'file') {
-    const fileData = await fileHandle.getFile();
-    var text = await fileData.text();
-    alert(text);
-  } else if (fileHandle.kind === 'directory') {
-    // run directory code
-  }
-
+async function arunit(){
+  var [fileHandle] = await window.showOpenFilePicker();
+  const file = await fileHandle.getFile();
+  const contents = await file.text();
+  console.log(contents);
 }
+
+async function arundir(){
+  var dirHandle = await window.showDirectoryPicker();
+  for(var n=dirHandle.next(); n!=null; n=n.next()){
+    conosole.log(n);
+  }
+}
+function runit() {
+    arunit();
+}
+
+function rundir() {
+    arundir();
+}
+
 </script>
 </head>
 <body>
-    <h1>
-    Hello
-    </h1>
-    <button onclick="getFile()">
-    Go
-    </button>
+  <h1>Hello</h1>
+  <button onclick="javascript:runit()">Run File</button>
+  <button onclick="javascript:rundir()">Run Dir</button>
 </body>
 </html>
