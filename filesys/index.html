@@ -1,6 +1,24 @@
 <html>
 <head>
+<script	src="sorttable.js"></script>
+<script	src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css"></link>
+<style type="text/css">
+table.results {
+  border-collapse: collapse;
+  width: 90%;
+  margin: auto;
+}
+
+table.results th,
+table.results td {
+  border: thin solid black;
+  padding: 4px;
+}
+</style>
 <script type="text/javascript">
+
 async function arunit(){
   var [fileHandle] = await window.showOpenFilePicker();
   const file = await fileHandle.getFile();
@@ -8,12 +26,29 @@ async function arunit(){
   console.log(contents);
 }
 
-async function arundir(){
+async function arundir() {
+  //$("#datatable tbody").removeAll();
   var dirHandle = await window.showDirectoryPicker();
-  for(var n=dirHandle.next(); n!=null; n=n.next()){
-    conosole.log(n);
-  }
+  arundirItem("/", dirHandle);
 }
+
+async function arundirItem(path, dirHandle){
+  for await (const entry of dirHandle.values()) {
+    if (entry.kind === "file"){
+      const file = await entry.getFile();
+      var tr = $("<tr/>").appendTo($("#datatable tbody"));
+      var td = $("<td/>").text(file.name).appendTo(tr);
+      var td = $("<td/>").text(path).appendTo(tr);
+    }
+    if (entry.kind === "directory") {
+      const newHandle = await dirHandle.getDirectoryHandle( entry.name, { create: false } );
+      //console.log(entry.name);
+      await arundirItem(path + "/" + entry.name, newHandle);
+    }
+  }
+  $("#datatable").sortable();
+}
+
 function runit() {
     arunit();
 }
@@ -28,5 +63,19 @@ function rundir() {
   <h1>Hello</h1>
   <button onclick="javascript:runit()">Run File</button>
   <button onclick="javascript:rundir()">Run Dir</button>
+  <div>
+    <h1>List of files</h1>
+    <table class="results sortable" id="datatable">
+      <thead>
+        <tr>
+          <th>File</th>
+          <th>Path</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>
