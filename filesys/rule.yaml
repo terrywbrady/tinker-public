@@ -1,0 +1,71 @@
+rules:
+  # nickname:
+  file-listing:
+    # class: ClassName:
+    class: FileRule
+    # category: hierarchical sort for a rule
+    category: core
+    name: "Rule Name"
+    # description: >
+    #   Multi-line description of the purpose
+    #   of the rule
+    description: >
+      Rule description
+    # traversal: file | files | dir | subdirs | api
+    #   file: process one file (file select)
+    #   files: process all of the files in a directory / no subdirectories (dir select)
+    #   dir: process a directory and all subdirectories (dir select)
+    #   subdirs: process all subdirectories excluding the root directory (dir select)
+    #   api: crawl api results (url)
+    traversal: dirs
+    # process: directories | files | records
+    process: files
+    # accept-file: regex of files to process
+    accept-file: "^.*\..*$"
+    # parameters to pass into the rule
+    parameters:
+      # param-name:
+      param-name:
+        # type: string | int | date | enum | file | directory
+        type: string
+        # regex: .*
+        regex: .*
+        # default-value: ""
+        default-value: ""
+    # results to present in a table
+    results:
+      columns:
+        # field-name:
+        filename: 
+          title: File Name
+          class: name
+          # type: string | int | float | percent | date | enum
+          type: string
+          # filter: true | false
+          filter: false
+          # export: true | false
+          export: true
+        path: 
+          title: File Name
+          class: path
+          type: string
+          filter: false
+          export: true
+        created: 
+          title: File Name
+          class: date
+          type: date
+          filter: false
+          export: true
+        size: 
+          title: Size
+          class: data
+          type: int
+          filter: false
+          export: true
+        extension:
+          title: Size
+          class: data
+          type: int
+          filter: true
+          export: true
