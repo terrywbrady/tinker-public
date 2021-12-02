@@ -35,6 +35,8 @@ async function arunit(){
 }
 
 async function arundir() {
+  // Note that this function is experimental.  It works in Chrome and Edge.  Does not work in Safari or Firefox.
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/showDirectoryPicker
   var dirHandle = await window.showDirectoryPicker();
   $('#datatable').bootstrapTable('destroy');
   $('#datatable').bootstrapTable({sortable: true});
