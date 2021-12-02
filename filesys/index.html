@@ -5,86 +5,32 @@
 <script	src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css"></link>
-
-<style type="text/css">
-  div.disp {
-    width: 94%;
-    margin: 0 auto;
-  }
-
-  div.tcollapse {
-    max-height: 400px;
-  }
-</style>
-
-<script type="text/javascript">
-$(document).ready(function(){
-  $("#rundir").on("click", function(){
-    arundir();
-  })
-  $("#collapse").on("click", function(){
-    $("div.disp").toggleClass("tcollapse");
-  });
-});
-
-async function arunit(){
-  var [fileHandle] = await window.showOpenFilePicker();
-  const file = await fileHandle.getFile();
-  const contents = await file.text();
-  console.log(contents);
-}
-
-async function arundir() {
-  // Note that this function is experimental.  It works in Chrome and Edge.  Does not work in Safari or Firefox.
-  // https://developer.mozilla.org/en-US/docs/Web/API/Window/showDirectoryPicker
-  var dirHandle = await window.showDirectoryPicker();
-  $('#datatable').bootstrapTable('destroy');
-  $('#datatable').bootstrapTable({sortable: true});
-  await arundirItem("/", dirHandle);
-}
-
-async function arundirItem(path, dirHandle){
-  var rows = [];
-  for await (var entry of dirHandle.values()) {
-    if (entry.kind === "file"){
-      var file = await entry.getFile();
-      rows.push([
-        file.name,
-        path,
-        file.lastModifiedDate.toLocaleDateString('en-CA'),
-        file.size
-      ]);
-    }
-    if (entry.kind === "directory") {
-      if (entry.name === ".git") continue;
-      var newHandle = await dirHandle.getDirectoryHandle( entry.name, { create: false } );
-      //console.log(entry.name);
-      await arundirItem(path + entry.name + "/", newHandle);
-    }
-  }
-  $('#datatable').bootstrapTable('append', rows);
-}
-
-
-</script>
+<link rel="stylesheet" type="text/css" href="filesys.css"></link>
+<script src="filesys.js"></script>
 </head>
 <body>
-  <h1>Hello</h1>
-  <button id="collapse">Collapse</button>
-  <button id="rundir">Run Dir</button>
+  <h1>File Analyzer: <span id="seldir">...</span></h1>
+  <div>
+    <fieldset class="buttons">
+      <legend>Location to Scan</legend>
+      <button id="rundir">Run Dir</button>
+      <button id="collapse">Collapse</button>
+    </fieldset>
+  </div>
   <div class="disp table-responsive">
-    <h1>List of files</h1>
     <table 
       class="table table-sm table-striped table-bordered" 
       id="datatable" 
       data-sortable="true"
+      data-filter-control="true"
     >
       <thead>
         <tr>
-          <th data-sortable="true">File</th>
-          <th data-sortable="true">Path</th>
-          <th data-sortable="true">Created</th>
-          <th data-sortable="true">Size</th>
+          <th data-sortable="true" data-field="file" data-filter-control="input">File</th>
+          <th data-sortable="true" data-field="path" data-filter-control="select">Path</th>
+          <th data-sortable="true" data-field="created" data-filter-control="input">Created</th>
+          <th data-sortable="true" data-field="size" data-filter-control="input">Size</th>
+          <th data-sortable="true" data-field="ext" data-filter-control="select">Ext</th>
         </tr>
       </thead>
       <tbody>
@@ -94,5 +40,6 @@ async function arundirItem(path, dirHandle){
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
 </body>
 </html>
