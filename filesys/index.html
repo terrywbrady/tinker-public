@@ -36,27 +36,25 @@ async function arunit(){
 
 async function arundir() {
   var dirHandle = await window.showDirectoryPicker();
-  $('#datatable').bootstrapTable('removeAll');
-  $('#datatable tbody').empty();
+  $('#datatable').bootstrapTable('destroy');
+  $('#datatable').bootstrapTable({sortable: true});
   await arundirItem("/", dirHandle);
-  $('#datatable')
-    .bootstrapTable('destroy')
-    .bootstrapTable({sortable: true});
 }
 
 async function arundirItem(path, dirHandle){
-  for await (const entry of dirHandle.values()) {
+  for await (var entry of dirHandle.values()) {
     if (entry.kind === "file"){
-      const file = await entry.getFile();
-      var tr = $("<tr/>").appendTo($("#datatable tbody"));
-      $("<td/>").text(file.name).appendTo(tr);
-      $("<td/>").text(path).appendTo(tr);
-      $("<td/>").text(file.lastModifiedDate.toLocaleDateString('en-CA')).appendTo(tr);
-      $("<td/>").text(file.size).appendTo(tr);
+      var file = await entry.getFile();
+      $('#datatable').bootstrapTable('append', [[
+        file.name,
+        path,
+        file.lastModifiedDate.toLocaleDateString('en-CA'),
+        file.size
+      ]]);
     }
     if (entry.kind === "directory") {
       if (entry.name === ".git") continue;
-      const newHandle = await dirHandle.getDirectoryHandle( entry.name, { create: false } );
+      var newHandle = await dirHandle.getDirectoryHandle( entry.name, { create: false } );
       //console.log(entry.name);
       await arundirItem(path + entry.name + "/", newHandle);
     }
