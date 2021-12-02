@@ -2,9 +2,6 @@ $(document).ready(function(){
     $("#rundir").on("click", function(){
       arundir();
     })
-    $("#collapse").on("click", function(){
-      $("div.disp").toggleClass("tcollapse");
-    });
   });
   
   async function arunit(){
@@ -20,12 +17,16 @@ $(document).ready(function(){
     var dirHandle = await window.showDirectoryPicker();
     $("#seldir").text(dirHandle.name);
     $('#datatable').bootstrapTable('destroy');
-    $('#datatable').bootstrapTable({sortable: true});
-    await arundirItem("/", dirHandle);
+    $('#datatable').bootstrapTable({
+      sortable: true,
+      pageList: [10, 25, 50, 100, 200, 500]
+    });
+    var rows = [];
+    await arundirItem(rows, "/", dirHandle);
+    $('#datatable').bootstrapTable('append', rows);
   }
   
-  async function arundirItem(path, dirHandle){
-    var rows = [];
+  async function arundirItem(rows, path, dirHandle){
     for await (var entry of dirHandle.values()) {
       if (entry.kind === "file"){
         var file = await entry.getFile();
@@ -42,9 +43,7 @@ $(document).ready(function(){
         if (entry.name === ".git") continue;
         var newHandle = await dirHandle.getDirectoryHandle( entry.name, { create: false } );
         //console.log(entry.name);
-        await arundirItem(path + entry.name + "/", newHandle);
+        await arundirItem(rows, path + entry.name + "/", newHandle);
       }
     }
-    $('#datatable').bootstrapTable('append', rows);
-    $("#collapse").show();
   }  

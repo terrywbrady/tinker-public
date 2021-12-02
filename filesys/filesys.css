@@ -3,13 +3,6 @@ div.disp {
     margin: 0 auto;
   }
 
-  div.tcollapse {
-    max-height: 400px;
-  }
-
-  #collapse {
-    display: none;
-  }
   fieldset.buttons {
     border: thin solid gray;
     display: inline;
