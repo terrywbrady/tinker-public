@@ -42,15 +42,16 @@ async function arundir() {
 }
 
 async function arundirItem(path, dirHandle){
+  var rows = [];
   for await (var entry of dirHandle.values()) {
     if (entry.kind === "file"){
       var file = await entry.getFile();
-      $('#datatable').bootstrapTable('append', [[
+      rows.push([
         file.name,
         path,
         file.lastModifiedDate.toLocaleDateString('en-CA'),
         file.size
-      ]]);
+      ]);
     }
     if (entry.kind === "directory") {
       if (entry.name === ".git") continue;
@@ -59,6 +60,7 @@ async function arundirItem(path, dirHandle){
       await arundirItem(path + entry.name + "/", newHandle);
     }
   }
+  $('#datatable').bootstrapTable('append', rows);
 }
 
 
