@@ -1,11 +1,11 @@
 rules:
   # nickname:
-  file-listing:
+  demo:
     # class: ClassName:
-    class: FileRule
+    class: BaseRule
     # category: hierarchical sort for a rule
     category: core
-    name: "Rule Name"
+    name: "Demo Rule Name"
     # description: >
     #   Multi-line description of the purpose
     #   of the rule
@@ -21,8 +21,66 @@ rules:
     # process: directories | files | records
     process: files
     # accept-file: regex of files to process
-    accept-file: "^.*\..*$"
+    accept-file: '^.*$'
+    # reject-file: regex of files to process
+    reject-file: '^$'
     # parameters to pass into the rule
+    parameters:
+      # param-name:
+      param-name:
+        # type: string | int | date | enum | file | directory
+        type: string
+        # regex: .*
+        regex: .*
+        # default-value: ""
+        default-value: ""
+    # results to present in a table
+    results:
+      columns:
+        # field-name:
+        filename: 
+          title: File Name
+          class: name
+          # type: string | int | float | percent | date | enum
+          type: string
+          # filter: true | false
+          filter: false
+          # export: true | false
+          export: true
+        path: 
+          title: File Name
+          class: path
+          type: string
+          filter: false
+          export: true
+        created: 
+          title: File Name
+          class: date
+          type: date
+          filter: false
+          export: true
+        size: 
+          title: Size
+          class: data
+          type: int
+          filter: false
+          export: true
+        extension:
+          title: Size
+          class: data
+          type: int
+          filter: true
+          export: true
+  file-listing:
+    class: FileRule
+    category: core
+    name: File Listing
+    description: >
+      Rule description
+    traversal: dirs
+    process: files
+    accept-file: '^.*\..*$'
+    reject-file: '^(\.git)$'
     parameters:
       # param-name:
       param-name:

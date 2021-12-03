@@ -1,8 +1,11 @@
 $(document).ready(function(){
-    $("#rundir").on("click", function(){
-      arundir();
-    })
+  var fa = new FAApp(function(r, rule){
+    $("<option/>").attr("value", r).text(rule['name']).appendTo("#rules");
   });
+ $("#rundir").on("click", function(){
+    arundir();
+  })
+});
   
   async function arunit(){
     var [fileHandle] = await window.showOpenFilePicker();

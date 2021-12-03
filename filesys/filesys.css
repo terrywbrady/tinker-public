@@ -1,32 +1,33 @@
 div.disp {
-    width: 94%;
-    margin: 0 auto;
-  }
+  width: 94%;
+  margin: 0 auto;
+  background-color: #fef1e5;
+}
 
-  fieldset.buttons {
-    border: thin solid gray;
-    display: inline;
-    margin: 6px;
-    padding: 6px;
-    border: 1px solid #666;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #666;
-  }
+fieldset.buttons {
+  border: thin solid gray;
+  display: inline;
+  margin: 6px;
+  padding: 6px;
+  border: 1px solid #666;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #666;
+}
 
-  fieldset.buttons button {
-    margin: 2px;
-    padding: 2px;
-    border: 1px solid #666;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #666;
-  }
+fieldset.buttons button {
+  margin: 2px;
+  padding: 2px;
+  border: 1px solid #666;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #666;
+}
 
-  fieldset.buttons legend {
-    display: inline-block;
-    font-weight: bold;
-    font-size: 1em;
-  }
+fieldset.buttons legend {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 1em;
+}
 
-  span#seldir {
-    background-color: #EEEEEE;
-  }
+span#seldir {
+  background-color: #EEEEEE;
+}
