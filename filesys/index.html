@@ -7,17 +7,23 @@
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css"></link>
 <link rel="stylesheet" type="text/css" href="filesys.css"></link>
-<script src="fa.js"></script>
-<script src="filesys.js"></script>
+<script type="module" src="fa.js"></script>
+<script type="module" src="filesys.js"></script>
 </head>
 <body>
   <h1>File Analyzer: <span id="seldir">...</span></h1>
   <div>
     <fieldset class="buttons">
       <legend>Rule Options</legend>
-      <select id="rules"></select>
+      <select id="rules">
+        <option value=""/>
+      </select>
       <button id="rundir">Run Dir</button>
     </fieldset>
+  </div>
+  <div>
+    <h2 id="selrule">Selected Rule</h2>
+    <div id="seldesc"></div>
   </div>
   <div class="disp table-responsive">
     <table 
