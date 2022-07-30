@@ -1,10 +1,28 @@
-$(document).ready(function(){
-  var fa = new FAApp(function(r, rule){
+import FAApp from './fa.js';
+
+var fa = new FAApp();
+
+async function showRules() {
+  await fa.loadrules();
+  var rules = fa.rules();
+  for(const r in rules) {
+    var rule = rules[r];
+    console.log(r);
+    console.log(rule)
     $("<option/>").attr("value", r).text(rule['name']).appendTo("#rules");
-  });
- $("#rundir").on("click", function(){
+  }
+}
+
+$(document).ready(function(){
+  showRules();
+  $("#rundir").on("click", function(){
     arundir();
   })
+  $("#rules").on('change', function(){
+    fa.setRule($("#rules").val());
+    $("#selrule").text(fa.getName());    
+    $("#seldesc").text(fa.getDescription());    
+  });
 });
   
   async function arunit(){

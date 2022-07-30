@@ -1,18 +1,42 @@
-var FAApp = function(cb) {
-    this.cb = cb;
-    this.json = null;
-    this.loadrules = async function(fname) {
-        var data = await $.get(fname);
-        this.json = jsyaml.load(data);
-        var rules = this.json['rules'];
-        if (rules == null) rules = [];
-        console.log(rules);
-        for(const r in rules) {
-            var rule = rules[r];
-            console.log(r);
-            console.log(rule)
-            this.cb(r, rule);
-        }
+class Rule {
+    constructor(json) {
+        this.name = json['name'] || "n/a";
+        this.description = json['description'] || 'n/a'
     }
-    this.loadrules("rule.yaml");
 }
+
+class FAApp {
+    constructor() {
+        this.yaml = "rule.yaml";
+        this.json = null;
+        this.farules = [];    
+        this.defrule = {
+            name: "n/a",
+            description: "n/a"
+        };
+        this.rule = new Rule(this.defrule);
+    }
+    async loadrules() {
+        var data = await $.get(this.yaml);
+        this.json = jsyaml.load(data);
+        this.farules = this.json['rules'];
+        if (this.farules == null) this.farules = [];
+    }
+    loaded() {
+        return this.json != null;
+    }
+    rules() {
+        return this.farules;
+    }
+    setRule(r) {
+        this.rule = new Rule(this.farules[r]);
+    }
+    getName() {
+        return this.rule.name;
+    }
+    getDescription() {
+        return this.rule.description;
+    }
+}
+
+export default FAApp;
