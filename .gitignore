@@ -1,3 +1,5 @@
 */vendor/
 feedcrawl/Gemfile.lock
 feedcrawl/.bundle/config
+log4j_stuff/target/
+logs/
