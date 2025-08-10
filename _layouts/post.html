@@ -7,7 +7,7 @@ layout: default
 
 <p class="view">by {{ page.author | default: site.author }}</p>
 
-{% include breadcrumbs.html %}
+{% include breadcrumbs.html path=page.path title=page.title %}
 {{content}}
 
 {% if page.tags %}
