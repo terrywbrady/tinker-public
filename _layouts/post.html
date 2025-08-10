@@ -7,8 +7,7 @@ layout: default
 
 <p class="view">by {{ page.author | default: site.author }}</p>
 
-{{ toc }}
----
+{% include toc.html html=content %}
 {{content}}
 
 {% if page.tags %}
